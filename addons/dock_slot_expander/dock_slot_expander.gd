@@ -2,7 +2,7 @@
 extends EditorPlugin
 
 var _dock_slot_wrappers : Array[DockSlotWrapper]
-var _columns : Array[VSplitContainer]
+var _columns : Array[Node]
 var _expanded_dock_slot : TabContainer
 
 
@@ -59,8 +59,10 @@ func _expand_dock_slot(dock_slot : TabContainer) -> void:
 	_expanded_dock_slot = dock_slot
 	
 	var dock_slot_wrapper := _find_wrapper_for_dock_slot(dock_slot)
-	dock_slot_wrapper.opposing_column.hide()
-	dock_slot_wrapper.vertical_neighbor.hide()
+	if dock_slot_wrapper.opposing_column:
+		dock_slot_wrapper.opposing_column.hide()
+	if dock_slot_wrapper.vertical_neighbor:
+		dock_slot_wrapper.vertical_neighbor.hide()
 
 
 # resets visibility of slots/columns to what it should be depending on content
@@ -99,7 +101,7 @@ func _fetch_dock_slots() -> void:
 			
 			# create wrapper for it with reference to parent column (vsplit)
 			var wrapper : DockSlotWrapper = DockSlotWrapper.new(dock_slot)
-			wrapper.column = dock_slot.get_parent() as VSplitContainer
+			wrapper.column = dock_slot.get_parent()
 			_dock_slot_wrappers.append(wrapper)
 			
 			# add column to array
@@ -128,8 +130,12 @@ func _fetch_dock_slots() -> void:
 	for d in _dock_slot_wrappers:
 		var neighbors := d.dock_slot.get_parent().get_children()
 		neighbors.erase(d.dock_slot)
-		var neighbor : TabContainer = neighbors[0]
-		d.vertical_neighbor = neighbor
+		var neighbor : TabContainer
+		for n in neighbors:
+			if n is TabContainer:
+				neighbor = n
+		if neighbor:
+			d.vertical_neighbor = neighbor
 
 
 func _find_wrapper_for_dock_slot(dock_slot : TabContainer) -> DockSlotWrapper:
@@ -154,8 +160,8 @@ func _get_dock_slot_at_position(pos : Vector2) -> TabContainer:
 class DockSlotWrapper:
 	var dock_slot : TabContainer
 	var vertical_neighbor : TabContainer
-	var column : VSplitContainer
-	var opposing_column : VSplitContainer
+	var column : Node
+	var opposing_column : Node
 	
 	func _init(p_node_reference : TabContainer = null) -> void:
 		dock_slot = p_node_reference
