@@ -107,13 +107,10 @@ func _fetch_dock_slots() -> void:
 				_columns.append(wrapper.column)
 				wrapper.column.child_order_changed.connect(_refresh)
 				
-			
-			# signals that trigger a visibility check
+			# signals that trigger a refresh
 			dock_slot.active_tab_rearranged.connect(_refresh.unbind(1))
-			#dock_slot.tab_selected.connect(_refresh.unbind(1))
 			dock_slot.tab_changed.connect(_refresh.unbind(1))
-			#dock_slot.tab_clicked.connect(_refresh.unbind(1))
-		#
+		
 		remove_control_from_docks(dummy_control)
 		dummy_control.free()
 	
