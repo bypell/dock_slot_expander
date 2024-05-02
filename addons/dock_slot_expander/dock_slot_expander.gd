@@ -1,6 +1,9 @@
 @tool
 extends EditorPlugin
 
+var use_ctrl_space := true
+var use_middle_mouse_click := true
+
 var _dock_slot_wrappers : Array[DockSlotWrapper]
 var _columns : Array[Node]
 var _expanded_dock_slot : TabContainer
@@ -24,11 +27,17 @@ func _input(event: InputEvent) -> void:
 	if not Engine.is_editor_hint():
 		return
 	
-	if event is InputEventKey and event.pressed:
-		if event.keycode == KEY_SPACE:
-			if event.ctrl_pressed:
-				var dock_slot := _get_dock_slot_at_position(get_viewport().get_mouse_position())
-				_toggle_dock_slot(dock_slot)
+	if use_ctrl_space and event is InputEventKey:
+		if event.keycode == KEY_SPACE and event.pressed and event.ctrl_pressed:
+			var dock_slot := _get_dock_slot_at_position(get_viewport().get_mouse_position())
+			_toggle_dock_slot(dock_slot)
+			return
+		
+	if use_middle_mouse_click and event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_MIDDLE and event.pressed:
+			var dock_slot := _get_dock_slot_at_position(get_viewport().get_mouse_position())
+			_toggle_dock_slot(dock_slot)
+			return
 
 
 func _toggle_dock_slot(dock_slot : TabContainer) -> void:
