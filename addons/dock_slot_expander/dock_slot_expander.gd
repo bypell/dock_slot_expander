@@ -43,7 +43,7 @@ func _input(event: InputEvent) -> void:
 func _toggle_dock_slot(dock_slot : TabContainer, event : InputEvent) -> void:
 	# if no dock to toggle
 	if not dock_slot:
-		# we dont want the dock group to retract when moving or pivoting in the scene view
+		# we dont want the dock group to retract when user moving or pivoting in the scene view
 		if event and not event is InputEventMouseButton:
 			_reset_dock_slots()
 		return
