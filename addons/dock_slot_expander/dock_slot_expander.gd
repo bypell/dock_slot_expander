@@ -34,7 +34,7 @@ func _input(event: InputEvent) -> void:
 			return
 		
 	if use_middle_mouse_click and event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_MIDDLE and event.pressed:
+		if event.button_index == MOUSE_BUTTON_MIDDLE and event.pressed and not event.ctrl_pressed:
 			var dock_slot := _get_dock_slot_at_position(get_viewport().get_mouse_position())
 			_toggle_dock_slot(dock_slot)
 			return
