@@ -30,22 +30,19 @@ func _input(event: InputEvent) -> void:
 	if use_ctrl_space and event is InputEventKey:
 		if event.keycode == KEY_SPACE and event.pressed and event.ctrl_pressed:
 			var dock_slot := _get_dock_slot_at_position(get_viewport().get_mouse_position())
-			_toggle_dock_slot(dock_slot, event)
+			_toggle_dock_slot(dock_slot)
 			return
 		
 	if use_middle_mouse_click and event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_MIDDLE and event.pressed and not event.ctrl_pressed:
 			var dock_slot := _get_dock_slot_at_position(get_viewport().get_mouse_position())
-			_toggle_dock_slot(dock_slot, event)
+			_toggle_dock_slot(dock_slot)
 			return
 
 
-func _toggle_dock_slot(dock_slot : TabContainer, event : InputEvent) -> void:
+func _toggle_dock_slot(dock_slot : TabContainer) -> void:
 	# if no dock to toggle
 	if not dock_slot:
-		# we dont want the dock group to retract when user moving or pivoting in the scene view
-		if event and not event is InputEventMouseButton:
-			_reset_dock_slots()
 		return
 	
 	# if no dock selected before this, expanding toggled dock
