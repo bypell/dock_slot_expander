@@ -8,4 +8,4 @@ It makes browsing large scene trees/file structures easier.
 License
 ---------
 
-- ![License file](addons/dock_slot_expander/LICENSE.md)
+- ![License file](addons/dock_slot_expander/LICENSE)
