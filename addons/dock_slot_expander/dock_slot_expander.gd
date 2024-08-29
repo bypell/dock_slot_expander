@@ -10,23 +10,14 @@ var _expanded_dock_slot : TabContainer
 
 
 func _enter_tree() -> void:
-	if not Engine.is_editor_hint():
-		return
-	
 	_fetch_dock_slots()
 
 
 func _exit_tree() -> void:
-	if not Engine.is_editor_hint():
-		return
-	
 	_reset_dock_slots()
 
 
 func _input(event: InputEvent) -> void:
-	if not Engine.is_editor_hint():
-		return
-	
 	if use_ctrl_space and event is InputEventKey:
 		if event.keycode == KEY_SPACE and event.pressed and event.ctrl_pressed:
 			var dock_slot := _get_dock_slot_at_position(get_viewport().get_mouse_position())
