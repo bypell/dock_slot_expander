@@ -20,7 +20,7 @@ config/icon="res://icon.svg"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/dock_slot_expander/plugin.cfg", "res://addons/zylann.editor_debugger/plugin.cfg")
+enabled=PackedStringArray("res://addons/dock_slot_expander/plugin.cfg")
 
 [rendering]
 

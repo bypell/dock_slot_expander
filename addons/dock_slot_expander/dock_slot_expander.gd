@@ -91,13 +91,18 @@ func _refresh() -> void:
 
 func _fetch_dock_slots() -> void:
 	# find dock slots
+	var failed_once_or_more := false
 	for dock_slot_index in DOCK_SLOT_MAX:
 		var dummy_control := Control.new()
 		add_control_to_dock(dock_slot_index, dummy_control)
 		
 		var dock_slot := dummy_control.get_parent()
-		if dock_slot is TabContainer:
-			
+		
+		# godot 4.6 - have to go up 1 more parent
+		if dock_slot is not TabContainer:
+			dock_slot = dock_slot.get_parent()
+		
+		if dock_slot is TabContainer and not failed_once_or_more:
 			# create wrapper for it with reference to parent column (vsplit)
 			var wrapper : DockSlotWrapper = DockSlotWrapper.new(dock_slot)
 			wrapper.column = dock_slot.get_parent()
@@ -111,9 +116,15 @@ func _fetch_dock_slots() -> void:
 			# signals that trigger a refresh
 			dock_slot.active_tab_rearranged.connect(_refresh.unbind(1))
 			dock_slot.tab_changed.connect(_refresh.unbind(1))
+		else:
+			failed_once_or_more = true
 		
 		remove_control_from_docks(dummy_control)
 		dummy_control.free()
+		
+	if failed_once_or_more:
+		printerr("Dock Slot Expander: can't find TabContainer parent(s).")
+		return
 	
 	# assign opposing column (the vsplit to hide when that slot is expanded)
 	_dock_slot_wrappers[DOCK_SLOT_LEFT_UL].opposing_column = _dock_slot_wrappers[DOCK_SLOT_LEFT_UR].column
