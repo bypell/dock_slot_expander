@@ -8,15 +8,19 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="DockSlotExpander"
-config/features=PackedStringArray("4.2", "GL Compatibility")
+config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/dock_slot_expander/plugin.cfg")
+enabled=PackedStringArray("res://addons/dock_slot_expander/plugin.cfg", "res://addons/zylann.editor_debugger/plugin.cfg")
 
 [rendering]
 
